@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import React, { Component } from "react";
+import { Alert, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Agenda } from "react-native-calendars";
 
 class AgendaScreen extends Component {
   constructor(props) {
@@ -15,9 +15,9 @@ class AgendaScreen extends Component {
     const { selected, items } = this.state;
     if (selected && items && items[selected]) {
       const newItem = {
-        name: 'New Item',
+        name: "New Item",
         height: 50,
-        day: selected 
+        day: selected,
       };
       items[selected].push(newItem);
       this.setState({ items: { ...items } });
@@ -38,11 +38,12 @@ class AgendaScreen extends Component {
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
         rowHasChanged={this.rowHasChanged}
-        showClosingKnob={true}
-        theme={{
-          //calendarBackground: '#3E4556',
-            
-        }}
+        showClosingKnob={false}
+        theme={
+          {
+            //calendarBackground: '#3E4556',
+          }
+        }
       />
     );
   }
@@ -51,25 +52,26 @@ class AgendaScreen extends Component {
     const items = {};
     const today = this.timeToString(day.timestamp);
     setTimeout(() => {
-
       this.setState({
-        items: items
+        items: items,
       });
     }, 1000);
-    items['2024-04-20'] = this.createItemsForDay();
-    items['2024-04-19'] = this.createItemsForDay();
+    items["2024-05-20"] = this.createItemsForDay();
+    items["2024-05-21"] = this.createItemsForDay();
   };
-  
+
   createItemsForDay = () => {
-    return [{
-      name: 'Запись',
-      height: 50,
-    }];
+    return [
+      {
+        name: "Запись",
+        height: 50,
+      },
+    ];
   };
 
   renderItem = (reservation, isFirst) => {
     const fontSize = isFirst ? 16 : 14;
-    const color = isFirst ? 'black' : '#43515c';
+    const color = isFirst ? "black" : "#43515c";
 
     return (
       <TouchableOpacity
@@ -95,7 +97,7 @@ class AgendaScreen extends Component {
 
   timeToString(time) {
     const date = new Date(time);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   }
 
   selectCurrentDate(date) {
@@ -106,18 +108,18 @@ class AgendaScreen extends Component {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     flex: 1,
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
-    marginTop: 17
+    marginTop: 17,
   },
   emptyDate: {
     height: 15,
     flex: 1,
-    paddingTop: 30
-  }
+    paddingTop: 30,
+  },
 });
 
 export default AgendaScreen;

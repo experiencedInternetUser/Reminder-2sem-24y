@@ -1,12 +1,11 @@
-import { StyleSheet } from 'react-native';
-import styled from 'styled-components';
+import { StyleSheet } from "react-native";
+import styled from "styled-components";
 
 const first_bg = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#3E4556',
+  container: {
+    flex: 1,
+    backgroundColor: "#3E4556",
+  },
+});
 
-    },
-  });
-
-  export default first_bg;
+export default first_bg;

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import first_bg from '../backrounds/first_bg'
+import first_bg from '../assets/backGrounds/first_bg'
 import Localization from '../assets/redefinition/Names';
 
 Localization();
