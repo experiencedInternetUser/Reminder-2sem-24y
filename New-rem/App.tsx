@@ -8,7 +8,6 @@ const App = () => {
   return(
     Login()
 
-
     // <NavigationContainer>
     //   <Tabs />
     // </NavigationContainer>

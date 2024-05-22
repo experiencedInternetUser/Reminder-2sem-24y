@@ -9,14 +9,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { getDataShedule } from "../ICALfactory/request";
+import getDataShedule from "../ICALfactory/request";
 
 export default function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
   return (
     //background?
     <SafeAreaView style={{ flex: 1 }}>
@@ -28,16 +27,12 @@ export default function Login() {
             alt="Logo"
             //ахахахахахха альт
           />
-
           <Text style={styles.title}>ВХОД</Text>
-
           <Text style={styles.subtitle}>где</Text>
         </View>
-
         <View style={styles.form}>
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Email</Text>
-
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
@@ -49,10 +44,8 @@ export default function Login() {
               onChangeText={(email) => setForm({ ...form, email })}
             />
           </View>
-
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Пороль</Text>
-
             <TextInput
               secureTextEntry
               style={styles.inputControl}
@@ -62,7 +55,6 @@ export default function Login() {
               onChangeText={(password) => setForm({ ...form, password })}
             />
           </View>
-
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => {
