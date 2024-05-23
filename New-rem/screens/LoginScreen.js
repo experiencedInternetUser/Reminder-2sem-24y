@@ -10,6 +10,7 @@ import {
 } from "react-native";
 
 import getDataShedule from "../ICALfactory/request";
+import SetUserData from "../ICALfactory/setUser";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -58,8 +59,9 @@ export default function Login() {
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={async () => {
-                await getDataShedule(form.email, form.password);
-                console.log(await dataSchedule);
+                // await getDataShedule(form.email, form.password);
+                // console.log(await dataSchedule);
+                await SetUserData(form.email, form.password);
               }}
             >
               <View style={styles.btn}>
