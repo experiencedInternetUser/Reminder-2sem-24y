@@ -20,9 +20,6 @@ const Task = ({ navigation }) => {
     }
   }
 
-  addContent("2024-05-22", "4", "lorem4", "13:00");
-  addContent("2024-05-25", "5", "lorem5", "13:00");
-
   return (
     // <View style={first_bg.container}>
     //   <AgendaScreen />

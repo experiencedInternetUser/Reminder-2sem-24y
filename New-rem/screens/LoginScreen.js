@@ -57,8 +57,9 @@ export default function Login() {
           </View>
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                getDataShedule(form.email, form.password);
+              onPress={async () => {
+                await getDataShedule(form.email, form.password);
+                console.log(await dataSchedule);
               }}
             >
               <View style={styles.btn}>
