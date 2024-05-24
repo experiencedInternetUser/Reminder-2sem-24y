@@ -11,12 +11,28 @@ import {
 
 import getDataShedule from "../ICALfactory/request";
 import SetUserData from "../ICALfactory/setUser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  const GetSaveItem = async () => {
+    try {
+      const value = await AsyncStorage.getItem("userForm");
+      if (value !== null) {
+        console.log(JSON.parse(value));
+      } else {
+        console.log("Данные не найдены");
+      }
+    } catch (error) {
+      console.log(error);
+      //alert
+    }
+  };
+
   return (
     //background?
     <SafeAreaView style={{ flex: 1 }}>
@@ -46,7 +62,7 @@ export default function Login() {
             />
           </View>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Пороль</Text>
+            <Text style={styles.inputLabel}>Пароль</Text>
             <TextInput
               secureTextEntry
               style={styles.inputControl}
@@ -62,6 +78,7 @@ export default function Login() {
                 // await getDataShedule(form.email, form.password);
                 // console.log(await dataSchedule);
                 await SetUserData(form.email, form.password);
+                await GetSaveItem();
               }}
             >
               <View style={styles.btn}>
