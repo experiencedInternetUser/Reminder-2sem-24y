@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import getDataShedule from "./request";
 
 export default async function SetUserData(email, password) {
   const form = {
@@ -21,4 +22,7 @@ export default async function SetUserData(email, password) {
       //alert
     }
   };
+
+  //TODO
+  return true;
 }

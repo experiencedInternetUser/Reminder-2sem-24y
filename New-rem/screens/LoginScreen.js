@@ -13,11 +13,18 @@ import getDataShedule from "../ICALfactory/request";
 import SetUserData from "../ICALfactory/setUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Login() {
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
+
+export default function Login({ navigation }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  const navigationRef = useNavigationContainerRef();
 
   const GetSaveItem = async () => {
     try {
@@ -55,7 +62,7 @@ export default function Login() {
               autoCorrect={false}
               keyboardType="email-address"
               style={styles.inputControl}
-              placeholder="chushpan2005"
+              placeholder="example@gmail.com"
               placeholderTextColor="#6b7280"
               value={form.email}
               onChangeText={(email) => setForm({ ...form, email })}
@@ -77,8 +84,10 @@ export default function Login() {
               onPress={async () => {
                 // await getDataShedule(form.email, form.password);
                 // console.log(await dataSchedule);
-                await SetUserData(form.email, form.password);
-                await GetSaveItem();
+                let flag = await SetUserData(form.email, form.password);
+                if (flag) {
+                  navigation.navigate("tabs");
+                }
               }}
             >
               <View style={styles.btn}>
