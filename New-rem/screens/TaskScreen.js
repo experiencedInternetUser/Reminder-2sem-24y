@@ -1,12 +1,31 @@
-import { View, SafeAreaView, StyleSheet, Text, Button } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
-import { Agenda } from "react-native-calendars";
+import { Agenda, AgendaList } from "react-native-calendars";
 import getDataShedule from "../ICALfactory/request";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Localization from "../assets/redefinition/Names";
+
+Localization();
 
 const Task = ({ navigation }) => {
   const Content = {
-    "2024-05-22": [{ name: "1", data: "lorem1", time: "12:30" }],
+    // "2024-05-26": [
+    //   { name: "0", data: "lorem00", time: "12:30" },
+    //   { name: "01", data: "lorem01", time: "12:31" },
+    //   { name: "02", data: "lorem02", time: "12:32" },
+    //   { name: "03", data: "lorem03", time: "12:33" },
+    // ],
+    // "2024-05-24": [{ name: "1", data: "lorem1", time: "13:30" }],
+    // "2024-05-23": [{ name: "2", data: "lorem2", time: "14:30" }],
+    // "2024-05-27": [{ name: "3", data: "lorem3", time: "15:30" }],
+    // "2024-05-28": [{ name: "4", data: "lorem4", time: "16:30" }],
   };
 
   function addContent(date, name, auditory, time) {
@@ -39,10 +58,10 @@ const Task = ({ navigation }) => {
     //   <AgendaScreen />
     // </View>
 
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Agenda
         items={Content}
-        renderItem={(item, isFirst) => (
+        renderItem={(item) => (
           <View style={styles.containerItem}>
             <Text style={styles.containerItemName}>{item.name}</Text>
             <View style={styles.flexForDataAndTime}>
@@ -51,30 +70,69 @@ const Task = ({ navigation }) => {
             </View>
           </View>
         )}
-        theme={{}}
+        theme={{
+          calendarBackground: "#3E4556",
+          backgroundColor: "green",
+          textSectionTitleColor: "#9E9E9E",
+          dayTextColor: "#FFFFFF",
+          monthTextColor: "#FFFFFF",
+
+          agendaDayNumColor: "#3E4556",
+          agendaDayTextColor: "#3E4556",
+          agendaTodayColor: "#3E4556",
+          agendaDayTextColor: "#3E4556",
+
+          agendaKnobColor: "#768390",
+          reservationsBackgroundColor: "#3E4556",
+        }}
+        showOnlySelectedDayItems={true}
+        pastScrollRange={10}
+        futureScrollRange={10}
+        agendaDayNumColor={false}
+        firstDay={1}
+        // renderEmptyDate={() => {
+        //   return (
+        //     <View style={styles.containerItem}>
+        //       <Text style={styles.containerItemName}>Тут пока ничего нет</Text>
+        //     </View>
+        //   );
+        // }}
       />
-      <View>
+      <View style={styles.btn}>
         <Button
+          color="#6393DB"
           title="+"
-          color="#000000"
           onPress={() => {
             console.log("111111");
           }}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#262D3F",
-    marginTop: 40,
+    backgroundColor: "#3E4556",
+    paddingTop: 40,
+  },
+  btn: {
+    width: 100,
+    alignSelf: "flex-end",
+    marginRight: 10,
+    marginBottom: 10,
   },
   containerItem: {
     backgroundColor: "#262D3F",
-    marginBottom: "8px",
+    paddingBottom: 8,
+    paddingTop: 8,
+    paddingLeft: 13,
+    paddingRight: 13,
+    marginLeft: -48,
+    marginRight: 16,
+    marginTop: 16,
+    borderRadius: 8,
   },
   flexForDataAndTime: {
     flex: 1,
@@ -83,6 +141,8 @@ const styles = StyleSheet.create({
   },
   containerItemName: {
     color: "#FFFFFF",
+    paddingBottom: 21,
+    paddingBottom: 9,
   },
   containerItemData: {
     color: "#FFFFFF",

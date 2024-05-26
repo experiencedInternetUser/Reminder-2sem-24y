@@ -108,7 +108,7 @@ class AgendaScreen extends Component {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "white",
+    backgroundColor: "#3E4556",
     flex: 1,
     borderRadius: 5,
     padding: 10,

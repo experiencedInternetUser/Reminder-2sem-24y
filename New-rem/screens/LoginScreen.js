@@ -13,32 +13,11 @@ import getDataShedule from "../ICALfactory/request";
 import SetUserData from "../ICALfactory/setUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {
-  NavigationContainer,
-  useNavigationContainerRef,
-} from "@react-navigation/native";
-
 export default function Login({ navigation }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
-  const navigationRef = useNavigationContainerRef();
-
-  const GetSaveItem = async () => {
-    try {
-      const value = await AsyncStorage.getItem("userForm");
-      if (value !== null) {
-        console.log(JSON.parse(value));
-      } else {
-        console.log("Данные не найдены");
-      }
-    } catch (error) {
-      console.log(error);
-      //alert
-    }
-  };
 
   return (
     //background?
@@ -51,8 +30,7 @@ export default function Login({ navigation }) {
             alt="Logo"
             //ахахахахахха альт
           />
-          <Text style={styles.title}>ВХОД</Text>
-          <Text style={styles.subtitle}>где</Text>
+          <Text style={styles.title}>Войти в аккаунт</Text>
         </View>
         <View style={styles.form}>
           <View style={styles.input}>
@@ -91,7 +69,7 @@ export default function Login({ navigation }) {
               }}
             >
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Зайти</Text>
+                <Text style={styles.btnText}>Войти</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -105,6 +83,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 24,
     flex: 1,
+    backgroundColor: "#3E4456",
   },
   header: {
     marginVertical: 36,
@@ -118,9 +97,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 27,
     fontWeight: "700",
-    color: "red",
+    color: "#FFFFFF",
     marginBottom: 6,
     textAlign: "center",
+    fontSize: 36,
   },
   subtitle: {
     fontSize: 15,
@@ -134,7 +114,7 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 17,
     fontWeight: "600",
-    color: "#222",
+    color: "#FFFFFF",
     marginBottom: 8,
   },
   inputControl: {
