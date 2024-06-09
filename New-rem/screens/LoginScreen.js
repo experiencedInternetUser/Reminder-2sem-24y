@@ -32,6 +32,7 @@ export default function Login({ navigation }) {
           />
           <Text style={styles.title}>Войти в аккаунт</Text>
         </View>
+
         <View style={styles.form}>
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Email</Text>
@@ -46,6 +47,7 @@ export default function Login({ navigation }) {
               onChangeText={(email) => setForm({ ...form, email })}
             />
           </View>
+
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Пароль</Text>
             <TextInput
@@ -57,6 +59,7 @@ export default function Login({ navigation }) {
               onChangeText={(password) => setForm({ ...form, password })}
             />
           </View>
+
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={async () => {
