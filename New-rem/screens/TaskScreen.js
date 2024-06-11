@@ -1,6 +1,3 @@
-import "react-native-gesture-handler";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-
 import {
   TextInput,
   View,
@@ -10,27 +7,36 @@ import {
   Button,
   Pressable,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState, useRef } from "react";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetBackdrop,
+  TouchableHighlight,
 } from "@gorhom/bottom-sheet";
 
-import { Agenda, AgendaList } from "react-native-calendars";
+import { Agenda } from "react-native-calendars";
 import getDataShedule from "../ICALfactory/request";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Localization from "../assets/redefinition/Names";
-import BottomScreen from "../navigation/bottomScreen";
+
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { BlurView } from "expo-blur";
 
 Localization();
 
 const Task = ({ navigation }) => {
-  const [selectedDay, setSelectedDay] = useState();
-  //TODO: сегодняшний день
+  const [selectedDay, setSelectedDay] = useState(
+    new Date().toISOString().split("T")[0].replace(/-/g, "-")
+  );
+
   const Content = {
-    "2024-06-09": [
+    "2024-06-10": [
       { name: "0", data: "lorem00", time: "12:30" },
       { name: "01", data: "lorem01", time: "12:31" },
       { name: "02", data: "lorem02", time: "12:32" },
@@ -82,6 +88,21 @@ const Task = ({ navigation }) => {
     description: "",
   });
 
+  const [show, setShow] = useState(false);
+  const [time, setTime] = useState(new Date("1995-12-17T00:00:00"));
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setTime(currentDate);
+    let time = selectedDate?.toLocaleTimeString("en-GB").substring(0, 5);
+    setnewEventAdd({ ...newEventAdd, time });
+  };
+
+  const showMode = () => {
+    setShow(true);
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
@@ -99,7 +120,6 @@ const Task = ({ navigation }) => {
             )}
             theme={{
               calendarBackground: "#3E4556",
-              backgroundColor: "green",
               textSectionTitleColor: "#9E9E9E",
               dayTextColor: "#FFFFFF",
               monthTextColor: "#FFFFFF",
@@ -129,14 +149,16 @@ const Task = ({ navigation }) => {
               );
             }}
             onDayPress={(day) => {
-              setSelectedDay(day.dateString);
+              let date = day.dateString;
+              setnewEventAdd({ ...newEventAdd, date });
             }}
           />
+
           <BottomSheetModal
             ref={bottomSheetModalRef}
             index={0}
             snapPoints={["50%"]}
-            backgroundStyle={{ backgroundColor: "#262D3F" }}
+            backgroundStyle={{ backgroundColor: "" }}
           >
             <View style={bottomSheetStyles.container}>
               <View style={bottomSheetStyles.formName}>
@@ -147,9 +169,9 @@ const Task = ({ navigation }) => {
                   style={bottomSheetStyles.input}
                   placeholder="Название"
                   placeholderTextColor="#6b7280"
-                  value={newEventAdd.time}
-                  onChangeText={(time) =>
-                    setnewEventAdd({ ...newEventAdd, time })
+                  value={newEventAdd.name}
+                  onChangeText={(name) =>
+                    setnewEventAdd({ ...newEventAdd, name })
                   }
                 />
               </View>
@@ -158,7 +180,7 @@ const Task = ({ navigation }) => {
                 <TextInput
                   maxLength={300}
                   multiline={true}
-                  numberOfLines={4}
+                  numberOfLines={1}
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={bottomSheetStyles.input}
@@ -171,10 +193,63 @@ const Task = ({ navigation }) => {
                 />
               </View>
 
-              {/* <View style={bottomSheetStyles.formName}>
-                <Text>{selectedDay}</Text>
-              </View> */}
+              <View style={bottomSheetStyles.pickTimeContainer}>
+                <View style={bottomSheetStyles.timePeaker}>
+                  <TouchableOpacity
+                    onPress={(event, time) => {
+                      showMode();
+                    }}
+                    style={bottomSheetStyles.timePeaker}
+                  >
+                    <View style={bottomSheetStyles.timePeakerTextContainer}>
+                      <Text style={bottomSheetStyles.timePeakerText}>
+                        Выбрать время
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={bottomSheetStyles.dateString}>
+                  <Text style={bottomSheetStyles.dateStringText}>
+                    {time?.toLocaleTimeString("en-GB").substring(0, 5)}
+                    {/* {selectedDay} */}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={bottomSheetStyles.addEventContainer}>
+                <View style={bottomSheetStyles.addEventBtn}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      //TODO : INIT newEventAdd
+                      addContent(
+                        newEventAdd.date,
+                        newEventAdd.name,
+                        newEventAdd.description,
+                        newEventAdd.time
+                      );
+                    }}
+                  >
+                    <View style={bottomSheetStyles.addEventTextContainer}>
+                      <Text style={bottomSheetStyles.addEventText}>
+                        Добавить событие
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
+
+            {show && (
+              <DateTimePicker
+                mode="time"
+                display="spinner"
+                value={time}
+                is24Hour={true}
+                onChange={onChange}
+                timeZoneName={"Asia/Yekaterinburg"}
+              />
+            )}
           </BottomSheetModal>
 
           <View style={styles.btn}>
@@ -183,7 +258,6 @@ const Task = ({ navigation }) => {
               title="Добавить задачу"
               onPress={() => {
                 handleBottomSheet();
-                console.log(selectedDay);
               }}
             />
           </View>
@@ -245,24 +319,20 @@ const styles = StyleSheet.create({
   containerItemTime: {
     color: "#FFFFFF",
   },
-  setTaskContainer: {
-    height: 200,
-  },
 });
 
 const bottomSheetStyles = StyleSheet.create({
   container: {
     flex: 1,
+    marginHorizontal: 20,
   },
   formName: {
     marginVertical: 10,
-    marginHorizontal: 20,
   },
   formDescription: {
     marginVertical: 10,
-    marginHorizontal: 20,
+
     textAlign: "auto",
-    height: 100,
   },
   input: {
     height: 44,
@@ -272,7 +342,55 @@ const bottomSheetStyles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "#222",
-    borderColor: "red",
+  },
+  timePeaker: { flex: 2 },
+  timePeakerTextContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    height: 50,
+    // width: "200%",
+  },
+  timePeakerText: {
+    fontSize: 18,
+    fontWeight: "400",
+    color: "#000",
+  },
+  pickTimeContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    gap: 20,
+  },
+  dateString: {
+    backgroundColor: "gray",
+    height: 50,
+    borderRadius: 12,
+    // width: "20%",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  dateStringText: {},
+  addEventContainer: {
+    marginVertical: 10,
+  },
+  addEventBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#6393DB",
+    borderRadius: 12,
+    height: 50,
+    width: "100%",
+  },
+  addEventText: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#fff",
+    textTransform: "uppercase",
   },
 });
 

@@ -63,8 +63,6 @@ export default function Login({ navigation }) {
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={async () => {
-                // await getDataShedule(form.email, form.password);
-                // console.log(await dataSchedule);
                 let flag = await SetUserData(form.email, form.password);
                 if (flag) {
                   navigation.navigate("tabs");
@@ -137,10 +135,10 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
   btn: {
-    backgroundColor: "#075eec",
+    backgroundColor: "#6393DB",
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#875eec",
+    // borderWidth: 1,
+    // borderColor: "lightblue",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

@@ -33,3 +33,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# request + setUser
+ICALfactory/request.js
+ICALfactory/setUser.js
